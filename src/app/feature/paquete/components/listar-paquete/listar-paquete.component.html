@@ -1,1 +1,45 @@
-<p>listar-paquete works!</p>
+<div id="paquetes">
+  <ul class="paquetes">
+    <li class="card_item" *ngFor="let item of listaPaquetes | async | filter: ['estado']: filtro">
+      <div class="card">
+        <h2 class="card_title">{{item.ciudad}} {{item.dias}} días y {{item.dias - 1}} noches</h2>
+        <p class="card_text">{{item.hotel}} / {{item.descripcion}}</p>
+        <button class="btn card_btn" data-bs-toggle="offcanvas" (click) = "compartir(item)" data-bs-target="#comprarPaquete" aria-controls="comprarPaquete">Más información</button>
+        <div *ngIf = "admin" class="row" style="padding: 5px 20px;">
+          <button class="btn btn-sm btn-primary" (click) = "compartir(item)" data-bs-toggle="modal" data-bs-target="#editarPaquete">Editar</button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="comprarPaquete" aria-labelledby="comprarPaqueteLabel">
+  <div class="offcanvas-header">
+    <h5 id="comprarPaqueteLabel">Así que quieres viajar... 🤗</h5><br>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body" *ngIf="paqueteParaCompartir">
+    <h2 class="ciudad">{{paqueteParaCompartir.ciudad}} {{paqueteParaCompartir.dias}} días y {{paqueteParaCompartir.dias - 1}} noches</h2>
+    <p class="hotel">
+      {{paqueteParaCompartir.hotel}} / {{paqueteParaCompartir.descripcion}} <br> 
+      <span style="color: #929292;font-size: smaller;"><strong>Cupos disponibles: </strong>{{paqueteParaCompartir.cupos}}</span>
+    </p>
+    <br>
+    <app-crear-compra [paquete]="paqueteParaCompartir"></app-crear-compra>
+  </div>
+</div>
+
+<div class="modal fade" #editarPaquete id="editarPaquete" tabindex="-1" aria-labelledby="editarPaqueteLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarPaqueteLabel">Editar paquete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" *ngIf="paqueteParaCompartir">
+        <app-formulario-paquete [isNew]=false [paquete]="paqueteParaCompartir" (actualizo)="actualizo($event)"></app-formulario-paquete>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,5 +1,5 @@
-<app-toolbar></app-toolbar>
-<app-navbar [items]='companies'></app-navbar>
+<div class="back" *ngIf="loading | async"><div class="spinner"></div></div>
+<app-navbar [items]='items'></app-navbar>
 <router-outlet></router-outlet>
 
 

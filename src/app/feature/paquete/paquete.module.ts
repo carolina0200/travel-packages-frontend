@@ -5,19 +5,23 @@ import { FormularioPaqueteComponent } from './components/formulario-paquete/form
 import { ListarPaqueteComponent } from './components/listar-paquete/listar-paquete.component';
 import { PaqueteComponent } from './components/paquete/paquete.component';
 import { PaqueteService } from './shared/service/paquete.service';
+import { DatePipe } from '@angular/common';
+import { CompraModule } from '@compra/compra.module';
 
 
 
 @NgModule({
   declarations: [
-    FormularioPaqueteComponent,
     ListarPaqueteComponent,
+    FormularioPaqueteComponent,
     PaqueteComponent
   ],
   imports: [
     PaqueteRoutingModule,
-    SharedModule
+    SharedModule,
+    CompraModule
   ],
-  providers: [PaqueteService]
+  exports: [ListarPaqueteComponent],
+  providers: [PaqueteService, DatePipe]
 })
 export class PaqueteModule { }

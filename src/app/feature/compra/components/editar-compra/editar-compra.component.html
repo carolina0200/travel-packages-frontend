@@ -1,0 +1,44 @@
+<p>La compra incluye {{compra.numeroAdultos + compra.numeroMenores}} personas<br>
+    Fecha de creación: {{compra.fechaCompra | date: 'dd/MM/yyyy HH:mm:ss'}}<br>
+    Valor de la compra: {{compra.valor | currency}}</p>
+<form [formGroup]="compraForm"> 
+    <div class="row" style="margin-bottom: 14px;">
+        <div class="col-md-6">
+            <label class="floating floating-sm">
+                <input type="text" id="nombre" class="form-control form-control-sm" formControlName="nombre"
+                    placeholder="Nombre del comprador" required>
+                <span for="nombre">Nombre completo</span>
+            </label>
+        </div>
+        <div class="col-md-6">
+            <label class="floating floating-sm">
+                <input type="email" id="correo" placeholder="ejemplo@correo.com" class="form-control form-control-sm" formControlName="correo" required>
+                <span for="correo">Correo para contacto</span>
+            </label>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <label class="floating floating-sm">
+                <input type="datetime-local" id="fechaIda" class="form-control form-control-sm" formControlName="fechaIda" required>
+                <span id="fechaIda">Fecha Salida</span>
+            </label>
+        </div>
+        <div class="col-md-6">
+            <label class="floating floating-sm">
+                <input disabled type="datetime-local" id="fechaRegreso" class="form-control form-control-sm" formControlName="fechaRegreso" required>
+                <span for="fechaRegreso">Fecha Regreso</span>
+            </label>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-6 d-grid gap-2">
+            <button type="button" (click)="actualizar()" data-bs-dismiss="modal" class="btn btn-primary">Actualizar</button>
+        </div>
+        <div class="col-md-6 d-grid gap-2">
+            <button type="button" (click)="eliminar()" data-bs-dismiss="modal" class="btn btn-danger">Eliminar compra</button>
+        </div>
+    </div>
+</form>

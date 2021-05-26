@@ -8,6 +8,11 @@ import { PaqueteComponent } from './components/paquete/paquete.component';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: '/paquete/listar',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
     component: PaqueteComponent,
     children: [
       {

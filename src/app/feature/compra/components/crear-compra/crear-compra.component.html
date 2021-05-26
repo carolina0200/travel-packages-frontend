@@ -1,0 +1,101 @@
+
+<form [formGroup]="estimacionForm" *ngIf="estimando && paquete"> 
+    <h6>👪 Cuentanos las personas que viajan</h6>
+    <p>* Los menores son los niños de 4 años o menos</p>
+    <div class="row">
+        <div class="col-md-6">
+            <label class="floating floating-sm">
+                <input type="number" id="numeroAdultos" min=0 class="form-control form-control-sm" formControlName="numeroAdultos"
+                    placeholder="Ingrese el número de mayores" required>
+                <span for="numeroAdultos">Mayores de 5 años</span>
+            </label>
+        </div>
+        <div class="col-md-6">
+            <label class="floating floating-sm">
+                <input type="number" id="numeroMenores" min=0 class="form-control form-control-sm" formControlName="numeroMenores"
+                    placeholder="Ingrese el número de menores" required>
+                <span id="numeroMenores">Menores de 5 años</span>
+            </label>
+        </div>
+    </div>
+    <span style="color: rgb(255, 110, 110); font-size: small;" *ngIf="paquete && estimacionForm.hasError('match_cupos')">
+       * Recuerda que solo tenemos {{paquete.cupos}} cupos disponibles
+    </span>
+    <br>
+    <br>
+    <h6>Ahora las fechas 📆</h6>
+    <p>Indicanos la fecha de salida que planeas</p>
+    <div class="row">
+        <div class="col-md-6">
+            <label class="floating floating-sm">
+                <input type="datetime-local" [min]="minFechaIda" id="fechaIda" class="form-control form-control-sm" formControlName="fechaIda" required>
+                <span id="fechaIda">Fecha Salida</span>
+            </label>
+        </div>
+        <div class="col-md-6">
+            <label class="floating floating-sm">
+                <input readonly type="datetime-local" id="fechaRegreso" class="form-control form-control-sm" formControlName="fechaRegreso" required>
+                <span for="fechaRegreso">Fecha Regreso</span>
+            </label>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12 d-grid gap-2">
+            <button type="button" (click)="calcularPrecio()" class="btn btn-primary">Continuar</button>
+        </div>
+    </div>
+</form>
+
+<div *ngIf="!estimando">
+
+    <form [formGroup]="compraForm"> 
+        <div>
+            <h6>Valor base del paquete: <span style="float: right;">{{paquete.precio | currency}}</span></h6>
+            <h6>Valor total del paquete: <span style="float: right;">{{compraForm.controls.valor.value | currency}}</span></h6>
+        </div>
+
+        <div style="font-size: small;">
+            <p style="margin: 25px 0px 5px;">¿Por qué? ... Estas son nuestras variantes</p>
+            <ul>
+                <li>Viajes en fin de semana + 10%.</li>
+                <li>Si son 5 o más viajeros - 20%.</li>
+                <li>Para menores de 4 años en semana - 50% por cada uno.</li>
+            </ul>
+        </div>
+
+        <h6 style="margin-bottom: 18px;">Ahora solo necesitamos tus datos de contacto ☎️ para completar el pago</h6>
+        <div class="row" style="margin-bottom: 14px;">
+            <div class="col-md-12">
+                <label class="floating floating-sm">
+                    <input type="text" id="nombre" class="form-control form-control-sm" formControlName="nombre"
+                        placeholder="Nombre del comprador" required>
+                    <span for="nombre">Nombre completo</span>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="floating floating-sm">
+                    <input type="email" id="correo" placeholder="ejemplo@correo.com" class="form-control form-control-sm" formControlName="correo" required>
+                    <span for="correo">Correo para contacto</span>
+                </label>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12 d-grid gap-2">
+                <button type="button" (click)="comprar()" class="btn btn-primary">✈️ Pagar tu viaje ✈️</button>
+            </div>
+        </div>
+        <br>
+        <div class="col-md-12 d-grid gap-2">
+            <button type="button" (click)="estimando = true" class="btn btn-sm btn-secondary">Página anterior</button>
+        </div>
+    </form>
+
+</div>
+
+
+
+

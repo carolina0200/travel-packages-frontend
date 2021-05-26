@@ -1,1 +1,34 @@
-<p>listar-compra works!</p>
+<div id="compras">
+  <table class="table table-sm table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#Paquete</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Salida</th>
+        <th scope="col">Regreso</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listaCompras | async" (click) = "editar(item)" data-bs-toggle="modal" data-bs-target="#editarCompra">
+        <th scope="row">{{item.idPaquete}}</th>
+        <td>{{item.nombre}}</td>
+        <td>{{item.fechaIda | date: 'dd/MM/yyyy HH:mm'}}</td>
+        <td>{{item.fechaRegreso | date: 'dd/MM/yyyy HH:mm'}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade" #editarCompra id="editarCompra" tabindex="-1" aria-labelledby="editarCompraLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarCompraLabel">Editar compra</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" *ngIf="compraParaEditar">
+        <app-editar-compra [compra]="compraParaEditar" (actualizo)="actualizo($event)"></app-editar-compra>
+      </div>
+    </div>
+  </div>
+</div>

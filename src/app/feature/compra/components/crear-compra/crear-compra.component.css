@@ -1,0 +1,48 @@
+.floating {
+    display: block;
+    position: relative;
+    margin-top: 20px;
+}
+.floating label,
+.floating > span {
+    position: absolute;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    top: -10px;
+    left: 0.75rem;
+    z-index: 3;
+    line-height: 1;
+    padding: 0 5px;
+    background: white;
+    font-size: 15px;
+    color: rgb(102, 101, 101);
+    font-weight: 500;
+}
+.floating.floating-sm label,
+.floating.floating-sm > span {
+    font-size: 13px;
+}
+.floating .form-control:placeholder-shown:not(:focus)::-webkit-input-placeholder {
+    opacity: 0;
+}
+
+.floating .form-control:placeholder-shown:not(:focus) + * {
+    opacity: 0.75;
+    top: 12px;
+}
+
+.floating .form-control-sm:placeholder-shown:not(:focus) + * {
+    opacity: 0.75;
+    top: 8px;
+}
+
+.ng-valid[required],
+.ng-valid.required {
+    border-left: 5px solid #42a948;
+}
+.ng-invalid:not(form) {
+    border-left: 5px solid #ccc;
+}
+.ng-invalid:not(form):not(.ng-pristine) {
+    border-left: 5px solid #f44336;
+}

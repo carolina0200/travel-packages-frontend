@@ -20,6 +20,9 @@
       "@paquete/*": [
         "src/app/feature/paquete/*"
       ],
+      "@compra/*": [
+        "src/app/feature/compra/*"
+      ],
       "@shared/*": [
         "src/app/shared/*"
       ]
