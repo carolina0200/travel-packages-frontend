@@ -42,7 +42,7 @@
     <br>
     <div class="row">
         <div class="col-md-12 d-grid gap-2">
-            <button type="button" (click)="calcularPrecio()" class="btn btn-primary">Continuar</button>
+            <button id="continuarCalculo" type="button" (click)="calcularPrecio()" class="btn btn-primary">Continuar</button>
         </div>
     </div>
 </form>
@@ -85,12 +85,12 @@
         <br>
         <div class="row">
             <div class="col-md-12 d-grid gap-2">
-                <button type="button" (click)="comprar()" class="btn btn-primary">✈️ Pagar tu viaje ✈️</button>
+                <button id="pagarPaquete" type="button" (click)="comprar()" class="btn btn-primary">✈️ Pagar tu viaje ✈️</button>
             </div>
         </div>
         <br>
         <div class="col-md-12 d-grid gap-2">
-            <button type="button" (click)="estimando = true" class="btn btn-sm btn-secondary">Página anterior</button>
+            <button id="volver" type="button" (click)="estimando = true" class="btn btn-sm btn-secondary">Página anterior</button>
         </div>
     </form>
 

@@ -1,5 +1,5 @@
 <div id="compras">
-  <table class="table table-sm table-hover">
+  <table class="compras table table-sm table-hover">
     <thead>
       <tr>
         <th scope="col">#Paquete</th>
@@ -9,7 +9,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of listaCompras | async" (click) = "editar(item)" data-bs-toggle="modal" data-bs-target="#editarCompra">
+      <tr id="{{i}}-editarCompra" *ngFor="let item of listaCompras | async; let i = index" (click) = "editar(item)" data-bs-toggle="modal" data-bs-target="#editarCompra">
         <th scope="row">{{item.idPaquete}}</th>
         <td>{{item.nombre}}</td>
         <td>{{item.fechaIda | date: 'dd/MM/yyyy HH:mm'}}</td>

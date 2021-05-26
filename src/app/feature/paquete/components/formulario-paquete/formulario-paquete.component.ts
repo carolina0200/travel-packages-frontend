@@ -39,7 +39,7 @@ export class FormularioPaqueteComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.construirFormularioProducto();
+    this.construirFormularioPaquete();
     if(!this.isNew) {
       this.paqueteForm.patchValue(this.paquete);
     }
@@ -89,7 +89,7 @@ export class FormularioPaqueteComponent implements OnInit {
     });
   }
 
-  private construirFormularioProducto() {
+  private construirFormularioPaquete() {
     this.paqueteForm = this.formBuilder.group({
       precio: [0, [Validators.required, Validators.min(0)]],
       ciudad: ['', [Validators.required, Validators.maxLength(LONGITUD_MAXIMA_PERMITIDA_TEXTO)]],

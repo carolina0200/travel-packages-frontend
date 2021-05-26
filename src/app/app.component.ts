@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   public items: MenuItem[] = [
     { url: '/home', nombre: 'Pagina principal' },
     { url: '/paquete/listar', nombre: 'Paquetes' },
-    { url: '/compra', nombre: 'Compras' }
+    { url: '/compra/listar', nombre: 'Compras' }
   ];
 
   ngOnInit(): void {

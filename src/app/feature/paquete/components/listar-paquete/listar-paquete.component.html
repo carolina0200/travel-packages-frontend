@@ -1,12 +1,12 @@
 <div id="paquetes">
   <ul class="paquetes">
-    <li class="card_item" *ngFor="let item of listaPaquetes | async | filter: ['estado']: filtro">
+    <li class="card_item" *ngFor="let item of listaPaquetes | async | filter: ['estado']: filtro; let i = index">
       <div class="card">
         <h2 class="card_title">{{item.ciudad}} {{item.dias}} días y {{item.dias - 1}} noches</h2>
         <p class="card_text">{{item.hotel}} / {{item.descripcion}}</p>
-        <button class="btn card_btn" data-bs-toggle="offcanvas" (click) = "compartir(item)" data-bs-target="#comprarPaquete" aria-controls="comprarPaquete">Más información</button>
+        <button id="{{i}}-comprarPaquete" class="btn card_btn" data-bs-toggle="offcanvas" (click) = "compartir(item)" data-bs-target="#comprarPaquete" aria-controls="comprarPaquete">Más información</button>
         <div *ngIf = "admin" class="row" style="padding: 5px 20px;">
-          <button class="btn btn-sm btn-primary" (click) = "compartir(item)" data-bs-toggle="modal" data-bs-target="#editarPaquete">Editar</button>
+          <button id="{{i}}-editarPaquete" class="btn btn-sm btn-primary" (click) = "compartir(item)" data-bs-toggle="modal" data-bs-target="#editarPaquete">Editar</button>
         </div>
       </div>
     </li>
