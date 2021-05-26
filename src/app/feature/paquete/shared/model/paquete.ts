@@ -1,6 +1,6 @@
 export class Paquete {
     id: number;
-    precio: string;
+    precio: number;
     estado: string;
     ciudad: string;
     hotel: string;

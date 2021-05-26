@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpService } from '@core/services/http.service';
+import { Paquete } from '@paquete/shared/model/paquete';
 import { PaqueteService } from '@paquete/shared/service/paquete.service';
 import { of } from 'rxjs';
 
@@ -13,6 +14,8 @@ describe('FormularioPaqueteComponent', () => {
   let component: FormularioPaqueteComponent;
   let fixture: ComponentFixture<FormularioPaqueteComponent>;
   let paqueteService: PaqueteService;
+  let spyActualizar: jasmine.Spy;
+  let spyCrear: jasmine.Spy;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -32,8 +35,10 @@ describe('FormularioPaqueteComponent', () => {
     fixture = TestBed.createComponent(FormularioPaqueteComponent);
     component = fixture.componentInstance;
     paqueteService = TestBed.inject(PaqueteService);
-    spyOn(paqueteService, 'actualizar').and.callFake;
-    spyOn(paqueteService, 'crear').and.returnValue(
+    spyActualizar = spyOn(paqueteService, 'actualizar').and.returnValue(
+      of() // void
+    );
+    spyCrear = spyOn(paqueteService, 'crear').and.returnValue(
       of({valor: 1})
     )
     fixture.detectChanges();
@@ -47,5 +52,30 @@ describe('FormularioPaqueteComponent', () => {
     expect(component.paqueteForm.valid).toBeFalsy();
   });
 
+  it('Deberia crear un paquete', () => {
+    component.isNew = true;
+    const form = {precio: 1000, ciudad: 'Cartagena', hotel: 'Hotel', descripcion: 'una descripcion'};
+    component.paqueteForm.patchValue(form);
+    component.guardar();
+    expect(spyCrear).toHaveBeenCalled();
+  });
+
+  
+  it('Deberia editar un paquete', () => {
+    component.isNew = false;
+    const paqueteDummy = new Paquete();
+    paqueteDummy.id = 1;
+    paqueteDummy.precio = 10000;
+    paqueteDummy.estado = 'A';
+    paqueteDummy.ciudad = 'Cartagena';
+    paqueteDummy.hotel = 'Decameron';
+    paqueteDummy.descripcion = 'Todo Incluido';
+    paqueteDummy.cupos = 4;
+    paqueteDummy.dias = 3;
+    paqueteDummy.fechaCreacion = '2021-05-03 12:00:00';
+    component.paquete = paqueteDummy;
+    component.guardar();
+    expect(spyActualizar).toHaveBeenCalled();
+  });
  
 });

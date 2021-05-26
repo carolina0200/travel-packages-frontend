@@ -1,7 +1,7 @@
-<p>La compra incluye {{compra.numeroAdultos + compra.numeroMenores}} personas<br>
+<p *ngIf ="compra">La compra incluye {{compra.numeroAdultos + compra.numeroMenores}} personas<br>
     Fecha de creación: {{compra.fechaCompra | date: 'dd/MM/yyyy HH:mm:ss'}}<br>
     Valor de la compra: {{compra.valor | currency}}</p>
-<form [formGroup]="compraForm"> 
+<form [formGroup]="compraForm" *ngIf ="compraForm"> 
     <div class="row" style="margin-bottom: 14px;">
         <div class="col-md-6">
             <label class="floating floating-sm">
@@ -38,7 +38,7 @@
             <button type="button" (click)="actualizar()" data-bs-dismiss="modal" class="btn btn-primary">Actualizar</button>
         </div>
         <div class="col-md-6 d-grid gap-2">
-            <button type="button" (click)="eliminar()" data-bs-dismiss="modal" class="btn btn-danger">Eliminar compra</button>
+            <button type="button" (click)="confirmarEliminacion()" data-bs-dismiss="modal" class="btn btn-danger">Eliminar compra</button>
         </div>
     </div>
 </form>

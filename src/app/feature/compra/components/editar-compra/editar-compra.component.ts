@@ -39,19 +39,21 @@ export class EditarCompraComponent implements OnInit {
   }
 
   construirEstimacionForm() {
-    this.diasDeViaje = (new Date(this.compra.fechaRegreso).getTime() - new Date(this.compra.fechaIda).getTime()) / MILISEGUNDOS_A_DIAS;
-    this.compraForm = this.formBuilder.group({
-      nombre: [this.compra.nombre, [Validators.required]],
-      correo: [this.compra.correo, [Validators.required, Validators.email]],
-      fechaIda: [this.datePipe.transform(this.compra.fechaIda, 'yyyy-MM-ddTHH:00:00')],
-      fechaRegreso: [this.datePipe.transform(this.compra.fechaRegreso, 'yyyy-MM-ddTHH:00:00')]
-    })
-
-    this.compraForm.get('fechaIda').valueChanges.subscribe(valor => {
-      const fechaRegreso = new Date(valor);
-      fechaRegreso.setDate(fechaRegreso.getDate() + this.diasDeViaje);
-      this.compraForm.get('fechaRegreso').setValue(this.datePipe.transform(fechaRegreso, 'yyyy-MM-ddTHH:00:00'))
-    });
+    if(this.compra) {
+      this.diasDeViaje = (new Date(this.compra.fechaRegreso).getTime() - new Date(this.compra.fechaIda).getTime()) / MILISEGUNDOS_A_DIAS;
+      this.compraForm = this.formBuilder.group({
+        nombre: [this.compra.nombre, [Validators.required]],
+        correo: [this.compra.correo, [Validators.required, Validators.email]],
+        fechaIda: [this.datePipe.transform(this.compra.fechaIda, 'yyyy-MM-ddTHH:00:00')],
+        fechaRegreso: [this.datePipe.transform(this.compra.fechaRegreso, 'yyyy-MM-ddTHH:00:00')]
+      })
+  
+      this.compraForm.get('fechaIda').valueChanges.subscribe(valor => {
+        const fechaRegreso = new Date(valor);
+        fechaRegreso.setDate(fechaRegreso.getDate() + this.diasDeViaje);
+        this.compraForm.get('fechaRegreso').setValue(this.datePipe.transform(fechaRegreso, 'yyyy-MM-ddTHH:00:00'))
+      });
+    }
   }
 
   actualizar() {
@@ -79,7 +81,7 @@ export class EditarCompraComponent implements OnInit {
     }
   }
 
-  eliminar() {
+  confirmarEliminacion() {
     Swal.fire({
       title: '¿Estás seguro?',
       text: "¡Eliminar la compra no se puede revertir!",
@@ -90,27 +92,24 @@ export class EditarCompraComponent implements OnInit {
       confirmButtonText: 'Si, eliminarlo'
     }).then((result) => {
       if (result.isConfirmed) {
-        Loading.state.next(true);
-        this.compraService.eliminar(this.compra).subscribe(() => {
-          Loading.state.next(false);
-          this.actualizo.emit({actualizo: true});
-          Swal.fire(
-            '¡Eliminada!',
-            'La compra fue eliminada.',
-            'success'
-          )
-        }, error => {
-          Loading.state.next(false);
-          this.actualizo.emit({actualizo: false});
-          Swal.fire(
-            'Lo sentimos',
-            error.error.mensaje || 'Error eliminando la compra, por favor intente de nuevo.',
-            'error'
-          )
-        })
-      
+        this.eliminar();
       }
     })
+  }
+
+  eliminar() {
+    Loading.state.next(true);
+    this.compraService.eliminar(this.compra).subscribe(() => {
+      Loading.state.next(false);
+      this.actualizo.emit({actualizo: true});
+      Swal.fire('¡Eliminada!', 'La compra fue eliminada.', 'success')
+    }, error => {
+      Loading.state.next(false);
+      this.actualizo.emit({actualizo: false});
+      Swal.fire('Lo sentimos',
+        error.error.mensaje || 'Error eliminando la compra, por favor intente de nuevo.',
+        'error')
+    });
   }
 
   

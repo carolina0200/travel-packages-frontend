@@ -1,5 +1,5 @@
 
-<form [formGroup]="estimacionForm" *ngIf="estimando && paquete"> 
+<form [formGroup]="estimacionForm" *ngIf="paquete && estimando && estimacionForm"> 
     <h6>👪 Cuentanos las personas que viajan</h6>
     <p>* Los menores son los niños de 4 años o menos</p>
     <div class="row">
@@ -49,7 +49,7 @@
 
 <div *ngIf="!estimando">
 
-    <form [formGroup]="compraForm"> 
+    <form [formGroup]="compraForm" *ngIf="compraForm"> 
         <div>
             <h6>Valor base del paquete: <span style="float: right;">{{paquete.precio | currency}}</span></h6>
             <h6>Valor total del paquete: <span style="float: right;">{{compraForm.controls.valor.value | currency}}</span></h6>

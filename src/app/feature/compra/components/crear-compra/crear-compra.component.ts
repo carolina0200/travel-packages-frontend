@@ -6,7 +6,6 @@ import { Compra } from '@compra/shared/model/compra';
 import { CompraService } from '@compra/shared/service/compra.service';
 import { Loading } from '@core/loading/loading';
 import { Paquete } from '@paquete/shared/model/paquete';
-import { PaqueteService } from '@paquete/shared/service/paquete.service';
 import Swal from 'sweetalert2'
 
 @Component({
@@ -15,7 +14,7 @@ import Swal from 'sweetalert2'
   styleUrls: ['./crear-compra.component.css']
 })
 export class CrearCompraComponent implements OnInit {
-  private _paquete: Paquete;
+  _paquete: Paquete;
   get paquete(): Paquete {
     return this._paquete;
   }
@@ -32,13 +31,14 @@ export class CrearCompraComponent implements OnInit {
     protected formBuilder: FormBuilder,
     protected datePipe: DatePipe,
     protected compraService: CompraService,
-    protected paqueteService: PaqueteService,
     protected router: Router
   ) { }
 
   ngOnInit(): void {
-    this.estimando = true;
-    this.construirEstimacionForm();
+    if (this.paquete) {
+      this.estimando = true;
+      this.construirEstimacionForm();
+    }
   }
 
   construirEstimacionForm() {
@@ -98,10 +98,14 @@ export class CrearCompraComponent implements OnInit {
       this.compraService.crear(compra).subscribe(respuesta => {
         compra.id = respuesta.valor;
         Loading.state.next(false);
-        Swal.fire({ icon: 'success', title: 'Felicidades',
-          text: '¡El pago de tu paquete fue procesado con éxito!. El siguiente paso es que un asesor se comunicará contigo para explicarte el proceso, ¡Muchas gracias por viajar con nosotros!'
+        Swal.fire({ 
+          icon: 'success', title: 'Felicidades',
+          text: '¡El pago de tu paquete fue procesado con éxito!. El siguiente paso es que un asesor se comunicará contigo para explicarte el proceso, ¡Muchas gracias por viajar con nosotros!',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Aceptar!'
+        }).then(() => {
+          location.reload();
         });
-        this.router.navigate(['/home']);
       }, () => {
         Loading.state.next(false);
         Swal.fire({ icon: 'error', title: 'Lo sentimos',

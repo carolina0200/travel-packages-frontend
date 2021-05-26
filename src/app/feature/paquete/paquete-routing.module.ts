@@ -6,25 +6,26 @@ import { PaqueteComponent } from './components/paquete/paquete.component';
 
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: '/paquete/listar',
-    pathMatch: 'full'
-  },
+  
   {
     path: '',
     component: PaqueteComponent,
     children: [
       {
-        path: 'crear',
-        component: FormularioPaqueteComponent
-      },
-      {
         path: 'listar',
         component: ListarPaqueteComponent
+      },
+      {
+        path: 'crear',
+        component: FormularioPaqueteComponent
       }
     ]
-  }
+  },
+  {
+    path: '',
+    redirectTo: '/paquete/listar',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({

@@ -46,4 +46,12 @@ describe('ListarPaqueteComponent', () => {
       expect(respuesta?.length).toEqual(2);
     });
   });
+
+  it('Si admin filtro deberia estar vacío, y A si no es admin', () => {
+    component.admin = true;
+    expect(component.filtro).toEqual('');
+
+    component.admin = false;
+    expect(component.filtro).toEqual('A');
+  });
 });
