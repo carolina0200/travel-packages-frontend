@@ -79,7 +79,7 @@ export class FormularioPaqueteComponent implements OnInit {
     .withPartial(this.paqueteForm.value))
     .subscribe(() => {
       Loading.state.next(false);
-      this.router.navigate(['./listar']);
+      this.router.navigate(['/paquete/listar']);
       Swal.fire({icon: 'success', title: 'Guardado con exito'});
     }, err => {
       Loading.state.next(false);
