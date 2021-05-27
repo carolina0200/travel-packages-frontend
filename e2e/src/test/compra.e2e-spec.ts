@@ -20,6 +20,17 @@ describe('workspace-project Compra', () => {
         expect(2).toBe(compra.contarCompras());
     });
 
+    it('No deberia editar una compra', () => {
+        const CORREO_INCORRECTO = "correo@"
+        page.navigateTo();
+        navBar.clickBotonCompras();
+        compra.clicklinkEditarCompra();
+        compra.ingresarCorreoCompra(CORREO_INCORRECTO);
+        compra.clicklinkActualizarCompra();
+        expect(compra.getSweetAlertText()).toEqual('Oops...');
+        compra.clickAlertConfirm();
+    });
+
     it('Deberia editar una compra', () => {
         page.navigateTo();
         navBar.clickBotonCompras();

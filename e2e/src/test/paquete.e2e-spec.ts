@@ -13,6 +13,14 @@ describe('workspace-project Paquete', () => {
         paquete = new PaquetePage();
     });
 
+    it('No deberia crear paquete', () => {
+        page.navigateTo();
+        navBar.clickBotonPaquetes();
+        paquete.clickBotonCrearPaquete();
+        paquete.clickBotonGuardarPaquete();
+        expect(paquete.getSweetAlertText()).toEqual('Oops...');
+    });
+
     it('Deberia crear paquete', () => {
         const PRECIO_PAQUETE = 10000;
         const CIUDAD_PAQUETE = 'cartagena';
@@ -42,6 +50,19 @@ describe('workspace-project Paquete', () => {
         paquete.clickAlertConfirm();
     });
 
+    it('No deberia crear una compra', () => {
+        const CORREO_COMPRA = 'desconocido@gmail.com';
+
+        page.navigateTo();
+        navBar.clickBotonPaquetes();
+        paquete.clickBotonComprarPaquete();
+        paquete.clickBotonContinuarCalculo();
+        paquete.ingresarCorreoCompra(CORREO_COMPRA);
+        paquete.clickBotonPagarPaquete();
+        expect(paquete.getSweetAlertText()).toEqual('Oops...');
+        paquete.clickAlertConfirm();
+    });
+
     it('Deberia crear una compra', () => {
         const NOMBRE_COMPRA = 'Desconocido Apellido';
         const CORREO_COMPRA = 'desconocido@gmail.com';
@@ -55,7 +76,7 @@ describe('workspace-project Paquete', () => {
         paquete.clickBotonPagarPaquete();
         expect(paquete.getSweetAlertText()).toEqual('Felicidades');
         paquete.clickAlertConfirm();
-    })
+    });
 
     it('Deberia listar paquetes', () => {
         page.navigateTo();

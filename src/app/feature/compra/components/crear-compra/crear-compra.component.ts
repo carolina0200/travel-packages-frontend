@@ -4,9 +4,9 @@ import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } fro
 import { Router } from '@angular/router';
 import { Compra } from '@compra/shared/model/compra';
 import { CompraService } from '@compra/shared/service/compra.service';
+import { EasyAlerts } from '@core/alerts/sweet-alert';
 import { Loading } from '@core/loading/loading';
 import { Paquete } from '@paquete/shared/model/paquete';
-import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-crear-compra',
@@ -75,18 +75,10 @@ export class CrearCompraComponent implements OnInit {
         Loading.state.next(false);
       }, error => {
         Loading.state.next(false);
-        Swal.fire({
-          icon: 'error',
-          title: 'Lo sentimos',
-          text: error.error.mensaje || 'Ocurrió un error, por favor intenta de nuevo'
-        })
+        EasyAlerts.error('Lo sentimos', error.error.mensaje || 'Ocurrió un error, por favor intenta de nuevo');
       });
     } else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'Por favor completa bien el formulario'
-      })
+      EasyAlerts.alerta('Oops...', 'Por favor completa bien el formulario');
     }
   }
 
@@ -98,24 +90,14 @@ export class CrearCompraComponent implements OnInit {
       this.compraService.crear(compra).subscribe(respuesta => {
         compra.id = respuesta.valor;
         Loading.state.next(false);
-        Swal.fire({ 
-          icon: 'success', title: 'Felicidades',
-          text: '¡El pago de tu paquete fue procesado con éxito!. El siguiente paso es que un asesor se comunicará contigo para explicarte el proceso, ¡Muchas gracias por viajar con nosotros!',
-          confirmButtonColor: '#3085d6',
-          confirmButtonText: 'Aceptar!'
-        }).then(() => {
-          location.reload();
-        });
+        EasyAlerts.exitoso('Felicidades', '¡El pago de tu paquete fue procesado con éxito!. El siguiente paso es que un asesor se comunicará contigo para explicarte el proceso, ¡Muchas gracias por viajar con nosotros!')
+        .then(() => { location.reload();});
       }, () => {
         Loading.state.next(false);
-        Swal.fire({ icon: 'error', title: 'Lo sentimos',
-          text: 'Tuvimos un error procesando tu compra, por favor intenta de nuevo'
-        });
+        EasyAlerts.error('Lo sentimos', 'Tuvimos un error procesando tu compra, por favor intenta de nuevo');
       });
     } else {
-      Swal.fire({ icon: 'warning', title: 'Oops...',
-        text: 'Por favor completa bien el formulario'
-      });
+      EasyAlerts.alerta('Oops...', 'Por favor completa bien el formulario');
     }
   }
 

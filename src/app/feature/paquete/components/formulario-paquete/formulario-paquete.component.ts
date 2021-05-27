@@ -2,10 +2,10 @@ import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { EasyAlerts } from '@core/alerts/sweet-alert';
 import { Loading } from '@core/loading/loading';
 import { Paquete } from '@paquete/shared/model/paquete';
 import { PaqueteService } from '@paquete/shared/service/paquete.service';
-import Swal from 'sweetalert2'
 
 const LONGITUD_MAXIMA_PERMITIDA_TEXTO: number = 100;
 const LONGITUD_MAXIMA_PERMITIDA_DESCRIPCION: number = LONGITUD_MAXIMA_PERMITIDA_TEXTO * 2;
@@ -49,11 +49,7 @@ export class FormularioPaqueteComponent implements OnInit {
     if(this.paqueteForm.valid) {
       this.isNew ? this.crear() : this.editar();
     } else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'Por favor completa bien el formulario, te puedes guiar de la letra roja!'
-      })
+      EasyAlerts.alerta('Oops...', 'Por favor completa bien el formulario, te puedes guiar de la letra roja!');
     }
   }
 
@@ -62,13 +58,11 @@ export class FormularioPaqueteComponent implements OnInit {
     Loading.state.next(true);   
     this.paqueteService.actualizar(paquete).subscribe(() => {
       Loading.state.next(false);
-      Swal.fire({icon: 'success', title: 'Actualizado con exito'});
+      EasyAlerts.exitoso('Actualizado con exito');
       this.actualizo.emit({actualizo: true});
     }, err => {
       Loading.state.next(false);
-      Swal.fire({icon: 'error', title: 'Lo sentimos',
-        text: err.error?.mensaje || 'Ocurrió un error, intenta de nuevo'
-      });
+      EasyAlerts.error('Lo sentimos', err.error?.mensaje || 'Ocurrió un error, intenta de nuevo')
       this.actualizo.emit({actualizo: false});
     });
   }
@@ -80,12 +74,10 @@ export class FormularioPaqueteComponent implements OnInit {
     .subscribe(() => {
       Loading.state.next(false);
       this.router.navigate(['/paquete/listar']);
-      Swal.fire({icon: 'success', title: 'Guardado con exito'});
+      EasyAlerts.exitoso('Guardado con exito');
     }, err => {
       Loading.state.next(false);
-      Swal.fire({icon: 'error', title: 'Lo sentimos',
-        text: err.error?.mensaje || 'Ocurrió un error, intenta de nuevo'
-      });
+      EasyAlerts.error('Lo sentimos', err.error?.mensaje || 'Ocurrió un error, intenta de nuevo');
     });
   }
 

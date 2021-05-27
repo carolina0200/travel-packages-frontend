@@ -3,8 +3,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Compra } from '@compra/shared/model/compra';
 import { CompraService } from '@compra/shared/service/compra.service';
+import { EasyAlerts } from '@core/alerts/sweet-alert';
 import { Loading } from '@core/loading/loading';
-import Swal from 'sweetalert2';
 
 const MILISEGUNDOS_A_DIAS: number = 86400000;
 
@@ -63,34 +63,21 @@ export class EditarCompraComponent implements OnInit {
       compra.fechaCompra = this.datePipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss')
       this.compraService.actualizar(compra).subscribe(() => {
         Loading.state.next(false);
-        Swal.fire({ icon: 'success', title: 'Actualizada',
-          text: '¡Compra actualizada con exito!'
-        });
+        EasyAlerts.exitoso('Actualizada', '¡Compra actualizada con exito!');
         this.actualizo.emit({actualizo: true});
       }, () => {
         Loading.state.next(false);
-        Swal.fire({ icon: 'error', title: 'Lo sentimos',
-          text: 'Tuvimos un error procesando la compra, por favor intenta de nuevo'
-        });
+        EasyAlerts.error('Lo sentimos', 'Tuvimos un error procesando la compra, por favor intenta de nuevo');
         this.actualizo.emit({actualizo: false});
       });
     } else {
-      Swal.fire({ icon: 'warning', title: 'Oops...',
-        text: 'Por favor completa bien el formulario'
-      });
+      EasyAlerts.alerta('Oops...', 'Por favor completa bien el formulario');
     }
   }
 
   confirmarEliminacion() {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: "¡Eliminar la compra no se puede revertir!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminarlo'
-    }).then((result) => {
+    EasyAlerts.confirmacion('¿Estás seguro?', '¡Eliminar la compra no se puede revertir!', 'Si, eliminarlo', 'Cancelar')
+    .then((result) => {
       if (result.isConfirmed) {
         this.eliminar();
       }
@@ -102,13 +89,11 @@ export class EditarCompraComponent implements OnInit {
     this.compraService.eliminar(this.compra).subscribe(() => {
       Loading.state.next(false);
       this.actualizo.emit({actualizo: true});
-      Swal.fire('¡Eliminada!', 'La compra fue eliminada.', 'success')
+      EasyAlerts.exitoso('¡Eliminada!', 'La compra fue eliminada.');
     }, error => {
       Loading.state.next(false);
       this.actualizo.emit({actualizo: false});
-      Swal.fire('Lo sentimos',
-        error.error.mensaje || 'Error eliminando la compra, por favor intente de nuevo.',
-        'error')
+      EasyAlerts.error('Lo sentimos', error.error.mensaje || 'Error eliminando la compra, por favor intente de nuevo.')
     });
   }
 

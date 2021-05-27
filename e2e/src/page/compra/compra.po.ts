@@ -4,7 +4,8 @@ export class CompraPage {
     private linkEditarCompra = element(by.id('0-editarCompra'));
     private linkActualizarCompra = element(by.id('actualizarCompra'));
     private linkEliminarCompra = element(by.id('eliminarCompra'));
-    private listaCompras = element.all(by.css('table.compras tbody tr'));
+    private listaCompras = element.all(by.xpath('/html/body/app-root/app-compra/div/app-listar-compra/div[1]/table/tbody/tr'));
+    private inputCorreoCompra = element(by.id('correo'));
     private sweetalertConfirmButton = element(by.css('swal2-confirm'));
     private sweetalertTitle = element(by.id('swal2-title'));
 
@@ -32,5 +33,9 @@ export class CompraPage {
         await this.sweetalertConfirmButton.click();
     }
 
+    
+    async ingresarCorreoCompra(correoCompra) {
+        await this.inputCorreoCompra.sendKeys(correoCompra);
+    }
 
 }
