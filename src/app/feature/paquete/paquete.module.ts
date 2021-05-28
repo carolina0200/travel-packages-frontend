@@ -7,8 +7,7 @@ import { PaqueteComponent } from './components/paquete/paquete.component';
 import { PaqueteService } from './shared/service/paquete.service';
 import { DatePipe } from '@angular/common';
 import { CrearCompraModule } from '@compra/components/crear-compra/crear-compra.module';
-
-
+import { ManejadorError } from '@core/interceptor/manejador-error';
 
 @NgModule({
   declarations: [
@@ -22,6 +21,6 @@ import { CrearCompraModule } from '@compra/components/crear-compra/crear-compra.
     CrearCompraModule
   ],
   exports: [ListarPaqueteComponent],
-  providers: [PaqueteService, DatePipe]
+  providers: [PaqueteService, DatePipe, ManejadorError]
 })
 export class PaqueteModule { }

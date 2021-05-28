@@ -6,6 +6,7 @@ import { SharedModule } from '@shared/shared.module';
 import { CompraRoutingModule } from './compra-routing.module';
 import { EditarCompraComponent } from './components/editar-compra/editar-compra.component';
 import { DatePipe } from '@angular/common';
+import { ManejadorError } from '@core/interceptor/manejador-error';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,6 @@ import { DatePipe } from '@angular/common';
     CompraRoutingModule,
     SharedModule
   ],
-  providers: [ CompraService, DatePipe ]
+  providers: [ CompraService, DatePipe, ManejadorError ]
 })
 export class CompraModule { }

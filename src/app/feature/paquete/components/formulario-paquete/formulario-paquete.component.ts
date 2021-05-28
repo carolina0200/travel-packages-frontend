@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EasyAlerts } from '@core/alerts/sweet-alert';
+import { ManejadorError } from '@core/interceptor/manejador-error';
 import { Loading } from '@core/loading/loading';
 import { Paquete } from '@paquete/shared/model/paquete';
 import { PaqueteService } from '@paquete/shared/service/paquete.service';
@@ -35,7 +36,8 @@ export class FormularioPaqueteComponent implements OnInit {
     private formBuilder: FormBuilder,
     protected paqueteService: PaqueteService,
     protected datePipe: DatePipe,
-    protected router: Router
+    protected router: Router,
+    protected manejadorError: ManejadorError
   ) { }
 
   ngOnInit() {
@@ -60,9 +62,10 @@ export class FormularioPaqueteComponent implements OnInit {
       Loading.state.next(false);
       EasyAlerts.exitoso('Actualizado con exito');
       this.actualizo.emit({actualizo: true});
-    }, err => {
+    }, error => {
       Loading.state.next(false);
-      EasyAlerts.error('Lo sentimos', err.error?.mensaje || 'Ocurrió un error, intenta de nuevo')
+      this.manejadorError.handleError(error);
+      EasyAlerts.error('Lo sentimos', `${this.manejadorError.obtenerErrorHttpCode(error.status)} - ${error.error?.mensaje || 'Por favor intenta de nuevo'}`)
       this.actualizo.emit({actualizo: false});
     });
   }
@@ -75,9 +78,10 @@ export class FormularioPaqueteComponent implements OnInit {
       Loading.state.next(false);
       this.router.navigate(['/paquete/listar']);
       EasyAlerts.exitoso('Guardado con exito');
-    }, err => {
+    }, error => {
       Loading.state.next(false);
-      EasyAlerts.error('Lo sentimos', err.error?.mensaje || 'Ocurrió un error, intenta de nuevo');
+      this.manejadorError.handleError(error);
+      EasyAlerts.error('Lo sentimos', `${this.manejadorError.obtenerErrorHttpCode(error.status)} - ${error.error?.mensaje || 'Por favor intena de nuevo'}`)
     });
   }
 

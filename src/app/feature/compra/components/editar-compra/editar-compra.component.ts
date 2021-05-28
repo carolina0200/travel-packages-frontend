@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Compra } from '@compra/shared/model/compra';
 import { CompraService } from '@compra/shared/service/compra.service';
 import { EasyAlerts } from '@core/alerts/sweet-alert';
+import { ManejadorError } from '@core/interceptor/manejador-error';
 import { Loading } from '@core/loading/loading';
 
 const MILISEGUNDOS_A_DIAS: number = 86400000;
@@ -18,7 +19,8 @@ export class EditarCompraComponent implements OnInit {
   constructor(
     protected formBuilder: FormBuilder,
     protected datePipe: DatePipe,
-    protected compraService: CompraService
+    protected compraService: CompraService,
+    protected manejadorError: ManejadorError
   ) {}
 
   compraForm: FormGroup;
@@ -65,10 +67,8 @@ export class EditarCompraComponent implements OnInit {
         Loading.state.next(false);
         EasyAlerts.exitoso('Actualizada', '¡Compra actualizada con exito!');
         this.actualizo.emit({actualizo: true});
-      }, () => {
-        Loading.state.next(false);
-        EasyAlerts.error('Lo sentimos', 'Tuvimos un error procesando la compra, por favor intenta de nuevo');
-        this.actualizo.emit({actualizo: false});
+      }, error => {
+        this.manejarError(error);
       });
     } else {
       EasyAlerts.alerta('Oops...', 'Por favor completa bien el formulario');
@@ -91,9 +91,14 @@ export class EditarCompraComponent implements OnInit {
       this.actualizo.emit({actualizo: true});
       EasyAlerts.exitoso('¡Eliminada!', 'La compra fue eliminada.');
     }, error => {
-      Loading.state.next(false);
-      this.actualizo.emit({actualizo: false});
-      EasyAlerts.error('Lo sentimos', error.error.mensaje || 'Error eliminando la compra, por favor intente de nuevo.')
+      this.manejarError(error);
     });
+  }
+
+  private manejarError(error: any) {
+    Loading.state.next(false);
+    this.manejadorError.handleError(error);
+    EasyAlerts.error('Lo sentimos', `${this.manejadorError.obtenerErrorHttpCode(error.status)} - ${error.error?.mensaje || 'Por favor intena de nuevo'}`);
+    this.actualizo.emit({ actualizo: false });
   }
 }

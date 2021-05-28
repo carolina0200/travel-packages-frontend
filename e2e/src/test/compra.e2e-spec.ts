@@ -17,7 +17,7 @@ describe('workspace-project Compra', () => {
         page.navigateTo();
         navBar.clickBotonCompras();
 
-        expect(2).toBe(compra.contarCompras());
+        expect(1).toBe(compra.contarCompras());
     });
 
     it('No deberia editar una compra', () => {

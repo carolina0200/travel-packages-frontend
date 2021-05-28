@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Compra } from '@compra/shared/model/compra';
 import { CompraService } from '@compra/shared/service/compra.service';
 import { EasyAlerts } from '@core/alerts/sweet-alert';
+import { ManejadorError } from '@core/interceptor/manejador-error';
 import { Loading } from '@core/loading/loading';
 import { Paquete } from '@paquete/shared/model/paquete';
 
@@ -31,7 +32,8 @@ export class CrearCompraComponent implements OnInit {
     protected formBuilder: FormBuilder,
     protected datePipe: DatePipe,
     protected compraService: CompraService,
-    protected router: Router
+    protected router: Router,
+    protected manejadorError: ManejadorError
   ) { }
 
   ngOnInit(): void {
@@ -75,7 +77,8 @@ export class CrearCompraComponent implements OnInit {
         Loading.state.next(false);
       }, error => {
         Loading.state.next(false);
-        EasyAlerts.error('Lo sentimos', error.error.mensaje || 'Ocurrió un error, por favor intenta de nuevo');
+        this.manejadorError.handleError(error);
+        EasyAlerts.error('Lo sentimos', `${this.manejadorError.obtenerErrorHttpCode(error.status)} - ${error.error?.mensaje || 'Por favor intena de nuevo'}`)
       });
     } else {
       EasyAlerts.alerta('Oops...', 'Por favor completa bien el formulario');
@@ -92,9 +95,10 @@ export class CrearCompraComponent implements OnInit {
         Loading.state.next(false);
         EasyAlerts.exitoso('Felicidades', '¡El pago de tu paquete fue procesado con éxito!. El siguiente paso es que un asesor se comunicará contigo para explicarte el proceso, ¡Muchas gracias por viajar con nosotros!')
         .then(() => { location.reload();});
-      }, () => {
+      }, error => {
         Loading.state.next(false);
-        EasyAlerts.error('Lo sentimos', 'Tuvimos un error procesando tu compra, por favor intenta de nuevo');
+        this.manejadorError.handleError(error);
+        EasyAlerts.error('Lo sentimos', `${this.manejadorError.obtenerErrorHttpCode(error.status)} - ${error.error?.mensaje || 'Por favor intena de nuevo el pago'}`)
       });
     } else {
       EasyAlerts.alerta('Oops...', 'Por favor completa bien el formulario');
