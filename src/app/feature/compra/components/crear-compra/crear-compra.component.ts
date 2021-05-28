@@ -11,7 +11,7 @@ import { Paquete } from '@paquete/shared/model/paquete';
 @Component({
   selector: 'app-crear-compra',
   templateUrl: './crear-compra.component.html',
-  styleUrls: ['./crear-compra.component.css']
+  styleUrls: ['./crear-compra.component.css'],
 })
 export class CrearCompraComponent implements OnInit {
   _paquete: Paquete;

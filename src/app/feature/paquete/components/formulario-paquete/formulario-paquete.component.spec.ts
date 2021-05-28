@@ -53,7 +53,7 @@ describe('FormularioPaqueteComponent', () => {
   });
 
   it('Deberia crear un paquete', () => {
-    component.isNew = true;
+    component.nuevo = true;
     const form = {precio: 1000, ciudad: 'Cartagena', hotel: 'Hotel', descripcion: 'una descripcion'};
     component.paqueteForm.patchValue(form);
     component.guardar();
@@ -62,7 +62,7 @@ describe('FormularioPaqueteComponent', () => {
 
   
   it('Deberia editar un paquete', () => {
-    component.isNew = false;
+    component.nuevo = false;
     const paqueteDummy = new Paquete();
     paqueteDummy.id = 1;
     paqueteDummy.precio = 10000;

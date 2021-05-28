@@ -19,7 +19,7 @@ export class EditarCompraComponent implements OnInit {
     protected formBuilder: FormBuilder,
     protected datePipe: DatePipe,
     protected compraService: CompraService
-  ) { }
+  ) {}
 
   compraForm: FormGroup;
 
@@ -96,7 +96,4 @@ export class EditarCompraComponent implements OnInit {
       EasyAlerts.error('Lo sentimos', error.error.mensaje || 'Error eliminando la compra, por favor intente de nuevo.')
     });
   }
-
-  
-
 }

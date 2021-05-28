@@ -6,9 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Compra } from '../model/compra';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CompraService {
 
   constructor(protected http: HttpService, protected datePipe: DatePipe) {}

@@ -5,9 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Paquete } from '../model/paquete';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PaqueteService {
 
   constructor(protected http: HttpService) {}

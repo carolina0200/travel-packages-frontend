@@ -17,7 +17,7 @@ const LONGITUD_MAXIMA_PERMITIDA_DESCRIPCION: number = LONGITUD_MAXIMA_PERMITIDA_
 })
 export class FormularioPaqueteComponent implements OnInit {
 
-  @Input() isNew = true;
+  @Input() nuevo = true;
   @Input() set paquete(paquete: Paquete) {
     this._paquete = paquete;
     this.ngOnInit();
@@ -40,14 +40,14 @@ export class FormularioPaqueteComponent implements OnInit {
 
   ngOnInit() {
     this.construirFormularioPaquete();
-    if(!this.isNew) {
+    if(!this.nuevo) {
       this.paqueteForm.patchValue(this.paquete);
     }
   }
 
   guardar() {
     if(this.paqueteForm.valid) {
-      this.isNew ? this.crear() : this.editar();
+      this.nuevo ? this.crear() : this.editar();
     } else {
       EasyAlerts.alerta('Oops...', 'Por favor completa bien el formulario, te puedes guiar de la letra roja!');
     }

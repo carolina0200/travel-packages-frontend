@@ -1,6 +1,6 @@
 <div id="paquetes">
   <ul class="paquetes">
-    <li class="card_item" *ngFor="let item of listaPaquetes | async | filter: ['estado']: filtro; let i = index">
+    <li class="card_item" *ngFor="let item of listaPaquetes | async | filter: ['estado']: filtro; let i = index; ; trackBy: 'id' | trackBy">
       <div class="card">
         <h2 class="card_title">{{item.ciudad}} {{item.dias}} días y {{item.dias - 1}} noches</h2>
         <p class="card_text">{{item.hotel}} / {{item.descripcion}}</p>
@@ -37,7 +37,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" *ngIf="paqueteParaCompartir">
-        <app-formulario-paquete [isNew]=false [paquete]="paqueteParaCompartir" (actualizo)="actualizo($event)"></app-formulario-paquete>
+        <app-formulario-paquete [nuevo]=false [paquete]="paqueteParaCompartir" (actualizo)="actualizo($event)"></app-formulario-paquete>
       </div>
     </div>
   </div>

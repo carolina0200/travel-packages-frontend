@@ -6,7 +6,7 @@ import { ListarPaqueteComponent } from './components/listar-paquete/listar-paque
 import { PaqueteComponent } from './components/paquete/paquete.component';
 import { PaqueteService } from './shared/service/paquete.service';
 import { DatePipe } from '@angular/common';
-import { CompraModule } from '@compra/compra.module';
+import { CrearCompraModule } from '@compra/components/crear-compra/crear-compra.module';
 
 
 
@@ -19,7 +19,7 @@ import { CompraModule } from '@compra/compra.module';
   imports: [
     PaqueteRoutingModule,
     SharedModule,
-    CompraModule
+    CrearCompraModule
   ],
   exports: [ListarPaqueteComponent],
   providers: [PaqueteService, DatePipe]
